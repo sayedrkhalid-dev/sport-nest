@@ -1,26 +1,192 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* SportNest Brand Palette */
+  --color-secondary-fixed-dim: #4edea3;
+  --color-outline: #727687;
+  --color-on-primary-fixed-variant: #003fa4;
+  --color-primary-fixed: #dae1ff;
+  --color-error-container: #ffdad6;
+  --color-on-tertiary-fixed-variant: #004c6e;
+  --color-on-tertiary-fixed: #001e2f;
+  --color-on-surface: #131b2e;
+  --color-on-primary: #ffffff;
+  --color-inverse-primary: #b3c5ff;
+  --color-on-primary-container: #f8f7ff;
+  --color-surface-container: #eaedff;
+  --color-on-surface-variant: #424656;
+  --color-on-error: #ffffff;
+  --color-energy-orange: #FF4D00;
+  --color-tertiary-container: #0079ad;
+  --color-inverse-on-surface: #eef0ff;
+  --color-inverse-surface: #283044;
+  --color-surface-variant: #dae2fd;
+  --color-on-secondary-fixed: #002113;
+  --color-on-primary-fixed: #001849;
+  --color-outline-variant: #c2c6d8;
+  --color-error: #ba1a1a;
+  --color-secondary-container: #6cf8bb;
+  --color-primary-fixed-dim: #b3c5ff;
+  --color-tertiary-fixed-dim: #89ceff;
+  --color-on-error-container: #93000a;
+  --color-secondary-fixed: #6ffbbe;
+  --color-secondary: #006c49;
+  --color-surface-container-highest: #dae2fd;
+  --color-on-background: #131b2e;
+  --color-surface-container-high: #e2e7ff;
+  --color-on-tertiary: #ffffff;
+  --color-primary: #0050cb;
+  --color-surface-container-lowest: #ffffff;
+  --color-on-secondary: #ffffff;
+  --color-surface-tint: #0054d6;
+  --color-tertiary-fixed: #c9e6ff;
+  --color-surface: #faf8ff;
+  --color-tertiary: #005f89;
+  --color-on-secondary-fixed-variant: #005236;
+  --color-surface-container-low: #f2f3ff;
+  --color-surface-dim: #d2d9f4;
+  --color-stroke-soft: #E2E8F0;
+  --color-surface-main: #FFFFFF;
+  --color-surface-bright: #faf8ff;
+  --color-surface-alt: #F8FAFC;
+  --color-on-tertiary-container: #f3f8ff;
+  --color-background: #faf8ff;
+  --color-primary-container: #0066ff;
+  --color-on-secondary-container: #00714d;
+
+  /* Custom Premium Spacing System */
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 16px;
+  --spacing-container-max: 1280px;
+  --spacing-stack-sm: 12px;
+  --spacing-margin-desktop: 40px;
+  --spacing-base: 8px;
+  --spacing-stack-md: 24px;
+  --spacing-stack-lg: 48px;
+
+  /* Custom Typography Config */
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Montserrat", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Declare class-based dark mode selector in Tailwind CSS v4 */
+@variant dark (.dark &);
+
+/* Custom Utility Classes & Dynamic Visual Gradients */
+.hero-gradient {
+  background: linear-gradient(
+    to right,
+    rgba(19, 27, 46, 0.9) 30%,
+    rgba(19, 27, 46, 0.4) 70%,
+    rgba(19, 27, 46, 0) 100%
+  );
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.kinetic-gradient {
+  background: linear-gradient(135deg, rgba(0, 80, 203, 0.85) 0%, rgba(19, 27, 46, 0.9) 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.glass-panel {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.shadow-premium {
+  box-shadow: 0 8px 30px rgba(19, 27, 46, 0.12);
+}
+
+.facility-card {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  box-shadow: 0 8px 30px rgba(19, 27, 46, 0.08);
+}
+
+.facility-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 40px rgba(19, 27, 46, 0.12);
+}
+
+/* Custom CSS Animations */
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
   }
 }
 
+.animate-infinite-scroll {
+  animation: infinite-scroll 25s linear infinite;
+  width: max-content;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.floating-element {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes subtle-zoom-pan {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.1) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.hero-zoom-bg {
+  animation: subtle-zoom-pan 20s ease-in-out infinite;
+}
+
+@keyframes kinetic-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 20px rgba(0, 102, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 102, 255, 0);
+  }
+}
+
+.kinetic-pulse-effect {
+  animation: kinetic-pulse 3s infinite;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
