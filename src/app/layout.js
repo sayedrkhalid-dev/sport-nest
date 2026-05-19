@@ -1,4 +1,5 @@
 import { Inter, Montserrat } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeContext/ThemeContext";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,7 +23,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${montserrat.variable} light`}>
       <body className="bg-surface font-sans text-on-surface antialiased overflow-x-hidden min-h-screen flex flex-col">
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
