@@ -12,8 +12,10 @@ export function ThemeProvider({ children }) {
     const savedTheme =
       localStorage.getItem("theme") ||
       (document.documentElement.classList.contains("dark") ? "dark" : "light");
-    setTheme(savedTheme);
-    setMounted(true);
+    queueMicrotask(() => {
+      setTheme(savedTheme);
+      setMounted(true);
+    });
   }, []);
 
   useEffect(() => {
