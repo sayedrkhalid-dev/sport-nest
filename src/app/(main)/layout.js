@@ -1,6 +1,8 @@
-import "./globals.css";
+import "../globals.css";
 import { Inter, Montserrat } from "next/font/google";
 import { ThemeProvider } from "@/context/ThemeContext";
+import Navbar from "@/components/Sections/Navbar/Navbar";
+import Footer from "@/components/Sections/Footer/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,7 +22,7 @@ export const metadata = {
     "Unlock access to elite stadiums, courts, and centers. Seamlessly book professional facilities designed for high-performance athletes and recreational teams alike.",
 };
 
-export default function RootLayout({ children }) {
+export default function MainLayout({ children }) {
   return (
     <html
       suppressHydrationWarning
@@ -31,7 +33,11 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
         className="bg-surface font-sans text-on-surface antialiased overflow-x-hidden min-h-screen flex flex-col"
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

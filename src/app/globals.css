@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* SportNest Brand Palette */
+  /* SportNest Brand Palette (LIGHT ONLY BASE) */
   --color-secondary-fixed-dim: #4edea3;
   --color-outline: #727687;
   --color-on-primary-fixed-variant: #003fa4;
@@ -16,7 +16,7 @@
   --color-surface-container: #eaedff;
   --color-on-surface-variant: #424656;
   --color-on-error: #ffffff;
-  --color-energy-orange: #FF4D00;
+  --color-energy-orange: #ff4d00;
   --color-tertiary-container: #0079ad;
   --color-inverse-on-surface: #eef0ff;
   --color-inverse-surface: #283044;
@@ -45,16 +45,16 @@
   --color-on-secondary-fixed-variant: #005236;
   --color-surface-container-low: #f2f3ff;
   --color-surface-dim: #d2d9f4;
-  --color-stroke-soft: #E2E8F0;
-  --color-surface-main: #FFFFFF;
+  --color-stroke-soft: #e2e8f0;
+  --color-surface-main: #ffffff;
   --color-surface-bright: #faf8ff;
-  --color-surface-alt: #F8FAFC;
+  --color-surface-alt: #f8fafc;
   --color-on-tertiary-container: #f3f8ff;
   --color-background: #faf8ff;
   --color-primary-container: #0066ff;
   --color-on-secondary-container: #00714d;
 
-  /* Custom Premium Spacing System */
+  /* Spacing */
   --spacing-gutter: 24px;
   --spacing-margin-mobile: 16px;
   --spacing-container-max: 1280px;
@@ -64,15 +64,69 @@
   --spacing-stack-md: 24px;
   --spacing-stack-lg: 48px;
 
-  /* Custom Typography Config */
+  /* Typography */
   --font-sans: "Inter", sans-serif;
   --font-display: "Montserrat", sans-serif;
 }
 
-/* Declare class-based dark mode selector in Tailwind CSS v4 */
+/* Tailwind dark variant */
 @variant dark (.dark &);
 
-/* Custom Utility Classes & Dynamic Visual Gradients */
+/* =========================
+   DARK MODE (SAFE OVERRIDES)
+   ========================= */
+
+/* Body */
+.dark body {
+  background-color: #0f172a;
+  color: #f1f5f9;
+}
+
+/* Glass UI */
+.dark .glass-card {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+}
+
+.dark .glass-panel {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+/* Shadows */
+.shadow-premium {
+  box-shadow: 0 8px 30px rgba(19, 27, 46, 0.12);
+}
+
+.dark .shadow-premium {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Cards */
+.facility-card {
+  transition:
+    transform 0.2s ease-out,
+    box-shadow 0.2s ease-out;
+  box-shadow: 0 8px 30px rgba(19, 27, 46, 0.08);
+}
+
+.facility-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 12px 40px rgba(19, 27, 46, 0.12);
+}
+
+.dark .facility-card {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+.dark .facility-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================
+   GRADIENTS
+   ========================= */
+
 .hero-gradient {
   background: linear-gradient(
     to right,
@@ -86,32 +140,10 @@
   background: linear-gradient(135deg, rgba(0, 80, 203, 0.85) 0%, rgba(19, 27, 46, 0.9) 100%);
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-}
+/* =========================
+   ANIMATIONS
+   ========================= */
 
-.glass-panel {
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.shadow-premium {
-  box-shadow: 0 8px 30px rgba(19, 27, 46, 0.12);
-}
-
-.facility-card {
-  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
-  box-shadow: 0 8px 30px rgba(19, 27, 46, 0.08);
-}
-
-.facility-card:hover {
-  transform: translateY(-4px) scale(1.01);
-  box-shadow: 0 12px 40px rgba(19, 27, 46, 0.12);
-}
-
-/* Custom CSS Animations */
 @keyframes infinite-scroll {
   from {
     transform: translateX(0);
@@ -174,6 +206,10 @@
   animation: kinetic-pulse 3s infinite;
 }
 
+/* =========================
+   UTILITIES
+   ========================= */
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -183,6 +219,7 @@
   scrollbar-width: none;
 }
 
+/* BODY BASE */
 body {
   background-color: var(--color-surface);
   color: var(--color-on-surface);
