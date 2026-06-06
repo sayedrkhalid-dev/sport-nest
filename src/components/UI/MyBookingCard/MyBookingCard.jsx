@@ -74,7 +74,7 @@ export default function MyBookingCard({ booking, onCancelled }) {
           </span>
           <span className="flex items-center gap-1.5">
             <HiClock className="w-4 h-4 text-secondary" />
-            {time_slot || "—"}
+            {time_slot ? `${time_slot.start_time} – ${time_slot.end_time}` : "—"}
             {hours && ` · ${hours}h`}
           </span>
           <span className="flex items-center gap-1.5">

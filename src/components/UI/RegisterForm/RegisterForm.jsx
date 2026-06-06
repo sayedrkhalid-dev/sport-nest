@@ -17,22 +17,18 @@ export default function RegisterForm() {
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-  const onSubmit = async ({ name, email, password, image }) => {
-    setLoading(true);
-    try {
-      const { error } = await authClient.signUp.email(
-        { name, email, password, image: image || undefined },
-        { throw: false }
-      );
-      if (error) throw new Error(error.message || "Registration failed.");
-      toast.success("Account created! Please sign in.");
-      router.push("/login");
-    } catch (err) {
-      toast.error(err.message || "Registration failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const onSubmit = async ({ name, email, password, image }) => {
+  setLoading(true);
+  try {
+    await authClient.signUp.email({ name, email, password, image });
+    toast.success("Account created! Please sign in.");
+    router.push("/login");
+  } catch (err) {
+    toast.error(err.message || "Registration failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleGoogle = async () => {
     setGoogleLoading(true);

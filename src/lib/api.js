@@ -38,8 +38,10 @@ export const getFacilities = (params = {}) => {
 export const getFacilityById = (id) => fetcher(`/facilities/${id}`);
 
 /** Fetch only the current owner's facilities */
-export const getMyFacilities = (ownerEmail) =>
-  fetcher(`/facilities?owner_email=${encodeURIComponent(ownerEmail)}`);
+export const getMyFacilities = async (ownerEmail) => {
+  const all = await fetcher("/facilities");
+  return all.filter((f) => f.owner_email === ownerEmail);
+};
 
 /** Create a new facility */
 export const addFacility = (data) =>
@@ -62,8 +64,7 @@ export const deleteFacility = (id) =>
 // ─── Bookings ─────────────────────────────────────────────────────────────────
 
 /** Fetch bookings for a specific user */
-export const getMyBookings = (email) =>
-  fetcher(`/bookings?email=${encodeURIComponent(email)}`);
+export const getMyBookings = () => fetcher("/bookings/my");
 
 /** Create a new booking */
 export const createBooking = (data) =>
@@ -74,7 +75,4 @@ export const createBooking = (data) =>
 
 /** Cancel a booking by ID */
 export const cancelBooking = (id) =>
-  fetcher(`/bookings/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify({ status: "cancelled" }),
-  });
+  fetcher(`/bookings/my/${id}/cancel`, { method: "PATCH" });

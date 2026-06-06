@@ -24,22 +24,22 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async ({ email, password }) => {
-    setLoading(true);
-    try {
-      const { error } = await authClient.signIn.email(
-        { email, password, callbackURL: redirect },
-        { throw: false }
-      );
-      if (error) throw new Error(error.message || "Invalid credentials.");
-      toast.success("Welcome back!");
-      router.push(redirect);
-    } catch (err) {
-      toast.error(err.message || "Login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+const onSubmit = async ({ email, password }) => {
+  setLoading(true);
+  try {
+    const { error } = await authClient.signIn.email(
+      { email, password, callbackURL: redirect },
+      { throw: false }
+    );
+    if (error) throw new Error(error.message || "Invalid credentials.");
+    toast.success("Welcome back!");
+    router.push(redirect);
+  } catch (err) {
+    toast.error(err.message || "Login failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleGoogle = async () => {
     setGoogleLoading(true);

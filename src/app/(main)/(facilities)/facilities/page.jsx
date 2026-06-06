@@ -8,14 +8,11 @@ export default async function FacilitiesPage({ searchParams }) {
   const params = await searchParams;
 
   // Build query params for the API request
-  const query = {
-    search: params.search || "",
-    type: params.type || "",
-    location: params.location || "",
-    maxPrice: params.maxPrice || "",
-    surface: params.surface || "",
-    rating: params.rating || "",
-  };
+const query = {
+  search: params.search || "",
+  facility_type: params.type || "",  // ✅ correct key
+  location: params.location || "",
+};
 
   if (params.indoor === "true") query.indoor = "true";
   if (params.outdoor === "true") query.outdoor = "true";

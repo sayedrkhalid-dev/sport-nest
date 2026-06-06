@@ -66,16 +66,14 @@ export default function BookingCard({ facility }) {
     setBookingLoading(true);
 
     try {
-      await createBooking({
-        facility_id: facility._id || facility.id,
-        facility_name: facility.name || facility.title,
-        booking_date: selectedDate,
-        time_slot: `${selectedSlot.start_time}-${selectedSlot.end_time}`,
-        hours: duration,
-        total_price: total,
-        user_email: user.email,
-        status: "pending",
-      });
+await createBooking({
+  facility_id: facility._id || facility.id,
+  booking_date: selectedDate,
+  time_slot: {
+    start_time: selectedSlot.start_time,
+    end_time: selectedSlot.end_time,
+  },
+});
 
       toast.success("Booking confirmed!");
       setBookingDone(true);

@@ -1,18 +1,28 @@
+// src/hooks/useAuth.js
 "use client";
 
-import { authClient } from "@/lib/authClient";
+import { useState, useEffect } from "react";
 
-/**
- * Thin wrapper around Better Auth's useSession hook.
- * Returns { user, session, isLoading, isAuthenticated }
- */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
 export function useAuth() {
-  const { data: session, isPending: isLoading } = authClient.useSession();
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`${BASE_URL}/users/me`, {
+      credentials: "include",
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => setUser(json?.data ?? null))
+      .catch(() => setUser(null))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   return {
-    user: session?.user ?? null,
-    session,
+    user,
     isLoading,
-    isAuthenticated: !!session?.user,
+    isAuthenticated: !!user,
+    setUser, // useful for updating user after login without re-fetching
   };
 }

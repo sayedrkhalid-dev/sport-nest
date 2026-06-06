@@ -19,7 +19,7 @@ export default function MyBookingsPage() {
     if (!user?.email) return;
     try {
       setLoading(true);
-      const data = await getMyBookings(user.email);
+      const data = await getMyBookings();
       setBookings(data || []);
     } catch (err) {
       toast.error(err.message || "Failed to fetch bookings.");
