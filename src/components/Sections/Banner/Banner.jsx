@@ -15,25 +15,29 @@ export default function Banner({ facilities: slides = [] }) {
 
   return (
     <section className="pt-20 relative w-full overflow-hidden bg-[#131b2e] dark:bg-black text-white">
-<Swiper
-  modules={[Autoplay, EffectFade, Pagination]}
-  effect="fade"
-  autoplay={{ delay: 5000, disableOnInteraction: false }}
-  pagination={{
-    clickable: true,
-    dynamicBullets: true,
-  }}
-  style={{
-    "--swiper-pagination-bottom": "20px",
-  }}
->
+      <Swiper
+        modules={[Autoplay, EffectFade, Pagination]}
+        effect="fade"
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        pagination={{
+          clickable: true,
+          dynamicBullets: true,
+        }}
+        style={{
+          "--swiper-pagination-bottom": "20px",
+        }}
+      >
         {slides.map((slide) => {
           const title       = slide.title || slide.name || "SportNest Premium Facility";
           const description = slide.description || "High-performance sports venue matching professional standards.";
-          const sportBadge  = slide.sportBadge || slide.facility_type || "Sports";
+          const sportBadge  = slide.sportBadge || slide.sport || slide.facility_type || "Sports";
           const spaceName   = slide.spaceName || slide.location || "Vetted Sports Arena";
-          const spaceStatus = slide.spaceStatus || (slide.available_slots?.length > 0 ? "Available now" : "Fully booked");
           const imageSrc    = slide.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png";
+          const facilityId  = slide._id || slide.id;
+
+          // Count only future/unbooked slots
+          const availableCount = slide.available_slots?.length ?? 0;
+          const spaceStatus = slide.spaceStatus || (availableCount > 0 ? "Available now" : "Fully booked");
 
           const titleWords  = title.split(" ");
           const titleFirst  = titleWords.length > 2 ? titleWords.slice(0, -2).join(" ") : title;
@@ -41,20 +45,19 @@ export default function Banner({ facilities: slides = [] }) {
 
           return (
             <SwiperSlide
-              key={slide._id || slide.id}
-               className="relative w-full min-h-[480px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] flex items-center"
+              key={facilityId}
+              className="relative w-full min-h-[480px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] flex items-center"
             >
               {/* Background image */}
               <div className="absolute inset-0 z-0">
-<Image
-  src={imageSrc}
-  alt={title}
-  fill
-  priority
-  sizes="100vw"
-  className="object-cover opacity-35"
-/>
-                {/* gradient: full dark on mobile, fades right on desktop */}
+                <Image
+                  src={imageSrc}
+                  alt={title}
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-cover opacity-35"
+                />
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/70 to-slate-950/90 lg:bg-gradient-to-r lg:from-slate-950 lg:via-slate-950/80 lg:to-transparent" />
               </div>
 
@@ -84,7 +87,7 @@ export default function Banner({ facilities: slides = [] }) {
                     {description}
                   </p>
 
-                  {/* Buttons — stack on mobile, row on sm+ */}
+                  {/* Buttons */}
                   <div className="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start w-full sm:w-auto">
                     <Link
                       href="/facilities"
@@ -94,9 +97,9 @@ export default function Banner({ facilities: slides = [] }) {
                       <FiArrowRight />
                     </Link>
                     <Link
-  href="/facilities"
-  className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 border border-white/20 hover:border-white/40 bg-white/5 backdrop-blur-md text-white font-bold rounded-xl hover:bg-white/10 transition-all cursor-pointer text-sm sm:text-base text-center"
->
+                      href={`/facilities/${facilityId}`}
+                      className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 border border-white/20 hover:border-white/40 bg-white/5 backdrop-blur-md text-white font-bold rounded-xl hover:bg-white/10 transition-all cursor-pointer text-sm sm:text-base text-center"
+                    >
                       Book a Slot
                     </Link>
                   </div>
@@ -143,6 +146,17 @@ export default function Banner({ facilities: slides = [] }) {
                         }`}
                       >
                         {spaceStatus}
+                      </span>
+                    </div>
+
+                    {/* Slot count indicator */}
+                    <div className="mt-3 p-3.5 rounded-xl bg-white/5 border border-white/5 flex justify-between items-center">
+                      <span className="text-xs text-slate-300 font-semibold flex items-center gap-1.5">
+                        <FiCalendar className="text-primary-fixed" />
+                        Available Slots:
+                      </span>
+                      <span className="text-xs font-bold text-white">
+                        {availableCount} {availableCount === 1 ? "slot" : "slots"}
                       </span>
                     </div>
 
