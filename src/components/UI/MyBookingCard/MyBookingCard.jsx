@@ -4,6 +4,7 @@ import { HiCalendarDays, HiClock, HiCurrencyDollar, HiXMark } from "react-icons/
 import toast from "react-hot-toast";
 import { cancelBooking } from "@/lib/api";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const STATUS_STYLES = {
   pending:   "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300",
@@ -13,6 +14,7 @@ const STATUS_STYLES = {
 
 export default function MyBookingCard({ booking, onCancelled }) {
   const [cancelling, setCancelling] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   const {
     _id,
@@ -35,10 +37,11 @@ export default function MyBookingCard({ booking, onCancelled }) {
     try {
       await cancelBooking(_id);
       toast.success("Booking cancelled successfully.");
-      onCancelled?.(_id);
+      // Animate out then notify parent
+      setVisible(false);
+      setTimeout(() => onCancelled?.(_id), 400);
     } catch (err) {
       toast.error(err.message || "Could not cancel booking.");
-    } finally {
       setCancelling(false);
     }
   };
@@ -52,49 +55,62 @@ export default function MyBookingCard({ booking, onCancelled }) {
     : "—";
 
   return (
-    <article className="flex flex-col sm:flex-row gap-4 rounded-2xl bg-surface-container-lowest dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700/50 p-5 shadow-premium">
-      <div className="flex-1 space-y-2">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-display font-bold text-on-surface dark:text-slate-100 text-base leading-tight">
-            {facilityName}
-          </h3>
-          <span
-            className={`px-2.5 py-0.5 text-xs font-semibold rounded-full capitalize flex-shrink-0 ${
-              STATUS_STYLES[status] || STATUS_STYLES.pending
-            }`}
-          >
-            {status}
-          </span>
-        </div>
-
-        <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-on-surface-variant dark:text-slate-400">
-          <span className="flex items-center gap-1.5">
-            <HiCalendarDays className="w-4 h-4 text-primary" />
-            {formattedDate}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <HiClock className="w-4 h-4 text-secondary" />
-            {time_slot ? `${time_slot.start_time} – ${time_slot.end_time}` : "—"}
-            {hours && ` · ${hours}h`}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <HiCurrencyDollar className="w-4 h-4 text-energy-orange" />
-            <strong className="text-on-surface dark:text-slate-200">${total_price}</strong>
-          </span>
-        </div>
-      </div>
-
-      {status !== "cancelled" && (
-        <button
-          id={`cancel-booking-${_id}`}
-          onClick={handleCancel}
-          disabled={cancelling}
-          className="self-start sm:self-center flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-xl bg-error/10 text-error hover:bg-error/20 transition-all duration-150 cursor-pointer disabled:opacity-50"
+    <AnimatePresence>
+      {visible && (
+        <motion.article
+          layout
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, x: 40, transition: { duration: 0.35 } }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+          className="flex flex-col sm:flex-row gap-4 rounded-2xl bg-surface-container-lowest dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700/50 p-5 shadow-premium"
         >
-          <HiXMark className="w-4 h-4" />
-          {cancelling ? "Cancelling…" : "Cancel"}
-        </button>
+          <div className="flex-1 space-y-2">
+            <div className="flex items-start justify-between gap-2">
+              <h3 className="font-display font-bold text-on-surface dark:text-slate-100 text-base leading-tight">
+                {facilityName}
+              </h3>
+              <span
+                className={`px-2.5 py-0.5 text-xs font-semibold rounded-full capitalize flex-shrink-0 ${
+                  STATUS_STYLES[status] || STATUS_STYLES.pending
+                }`}
+              >
+                {status}
+              </span>
+            </div>
+
+            <div className="flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-on-surface-variant dark:text-slate-400">
+              <span className="flex items-center gap-1.5">
+                <HiCalendarDays className="w-4 h-4 text-primary" />
+                {formattedDate}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <HiClock className="w-4 h-4 text-secondary" />
+                {time_slot ? `${time_slot.start_time} – ${time_slot.end_time}` : "—"}
+                {hours && ` · ${hours}h`}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <HiCurrencyDollar className="w-4 h-4 text-energy-orange" />
+                <strong className="text-on-surface dark:text-slate-200">${total_price}</strong>
+              </span>
+            </div>
+          </div>
+
+          {status !== "cancelled" && (
+            <motion.button
+              id={`cancel-booking-${_id}`}
+              onClick={handleCancel}
+              disabled={cancelling}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="self-start sm:self-center flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-xl bg-error/10 text-error hover:bg-error/20 transition-all duration-150 cursor-pointer disabled:opacity-50"
+            >
+              <HiXMark className="w-4 h-4" />
+              {cancelling ? "Cancelling…" : "Cancel"}
+            </motion.button>
+          )}
+        </motion.article>
       )}
-    </article>
+    </AnimatePresence>
   );
 }

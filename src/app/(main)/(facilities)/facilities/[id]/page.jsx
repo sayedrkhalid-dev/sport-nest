@@ -17,7 +17,6 @@ export default async function FacilityDetails({ params }) {
   } catch (err) {
     console.error("Failed to fetch facility details:", err);
   }
-  console.log(facility)
 
   if (!facility) {
     return (
@@ -44,7 +43,7 @@ export default async function FacilityDetails({ params }) {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
           </div>
 
-          <div className="max-w-container-max mx-auto h-full px-margin-desktop flex flex-col justify-end pb-8 relative z-10 space-y-4">
+          <div className="max-w-container-max mx-auto h-full px-4 sm:px-8 lg:px-margin-desktop flex flex-col justify-end pb-8 relative z-10 space-y-4">
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-1 bg-primary text-on-primary rounded-full text-label-sm font-label-sm uppercase tracking-wider font-bold">
                 {facility.sport || facility.facility_type || "Sports"}
@@ -74,7 +73,7 @@ export default async function FacilityDetails({ params }) {
         </section>
 
         {/* Content Grid */}
-        <section className="w-full py-12 px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <section className="w-full py-12 px-4 sm:px-8 lg:px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Left: Details */}
           <div className="lg:col-span-8 space-y-8 animate-fade-in-up">
             {/* Overview */}
@@ -132,8 +131,11 @@ export default async function FacilityDetails({ params }) {
               </div>
             )}
 
-            {/* Location Map */}
-            <LocationCard locationName={facility.location} address={facility.address || facility.location} />
+            {/* Location */}
+            <LocationCard
+              locationName={facility.location}
+              address={facility.address || facility.location}
+            />
           </div>
 
           {/* Right: Booking Card */}

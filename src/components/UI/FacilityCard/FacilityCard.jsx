@@ -4,6 +4,7 @@ import Image from "next/image";
 import { HiMapPin, HiStar, HiClock, HiCurrencyDollar } from "react-icons/hi2";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const SPORT_COLORS = {
   Football: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300",
@@ -16,28 +17,28 @@ const SPORT_COLORS = {
   "Table Tennis": "bg-teal-100   text-teal-700    dark:bg-teal-900/40    dark:text-teal-300",
 };
 
-export default function FacilityCard({ facility }) {
+export default function FacilityCard({ facility, index = 0 }) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  console.log(facility)
 
   const {
     _id,
     title,
-    about,
     facility_type,
     image,
     location,
     price,
+    price_per_hour,
     rating,
     badge,
     capacity,
-    available_slots,
-    owner_email,
-    amenities
+    name,
   } = facility;
 
-  const sportColor = SPORT_COLORS[facility_type] || "bg-surface-container text-on-surface-variant";
+  const displayPrice = price || price_per_hour || 0;
+  const displayTitle = title || name || "Facility";
+  const sportColor =
+    SPORT_COLORS[facility_type] || "bg-surface-container text-on-surface-variant";
 
   const handleBook = () => {
     if (!isAuthenticated) {
@@ -48,23 +49,30 @@ export default function FacilityCard({ facility }) {
   };
 
   return (
-    <article className="facility-card flex flex-col overflow-hidden rounded-2xl bg-surface-container-lowest dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700/50 shadow-premium">
+    <motion.article
+      className="facility-card flex flex-col overflow-hidden rounded-2xl bg-surface-container-lowest dark:bg-slate-800/60 border border-outline-variant/40 dark:border-slate-700/50 shadow-premium"
+      // Staggered fade-in from below
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.08, ease: "easeOut" }}
+      // Lift on hover
+      whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.12)" }}
+      whileTap={{ scale: 0.98 }}
+    >
       {/* Image */}
       <div className="relative h-48 w-full overflow-hidden">
         <Image
           src={image || "/placeholder-sport.jpg"}
-          alt={title || "facility image"}
+          alt={displayTitle}
           fill
           className="object-cover transition-transform duration-500 hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        {/* Badge */}
         {badge && (
           <span className="absolute top-3 left-3 px-2.5 py-1 text-xs font-semibold rounded-full bg-primary text-on-primary shadow">
             {badge}
           </span>
         )}
-        {/* Rating */}
         {rating && (
           <span className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-black/60 text-white backdrop-blur-sm">
             <HiStar className="text-yellow-400 w-3.5 h-3.5" />
@@ -75,13 +83,12 @@ export default function FacilityCard({ facility }) {
 
       {/* Body */}
       <div className="flex flex-col flex-1 p-4 gap-3">
-        {/* Type badge */}
         <span className={`self-start px-2.5 py-0.5 text-xs font-medium rounded-full ${sportColor}`}>
           {facility_type}
         </span>
 
         <h3 className="font-display font-bold text-base leading-tight text-on-surface dark:text-slate-100 line-clamp-2">
-          {title}
+          {displayTitle}
         </h3>
 
         <div className="flex flex-col gap-1.5 text-sm text-on-surface-variant dark:text-slate-400">
@@ -97,22 +104,23 @@ export default function FacilityCard({ facility }) {
           )}
         </div>
 
-        {/* Price + CTA */}
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-outline-variant/30 dark:border-slate-700/50">
           <div className="flex items-center gap-1 text-primary dark:text-blue-400">
             <HiCurrencyDollar className="w-5 h-5" />
-            <span className="font-bold text-lg">{price}</span>
+            <span className="font-bold text-lg">{displayPrice}</span>
             <span className="text-xs text-on-surface-variant dark:text-slate-400">/hr</span>
           </div>
-          <button
+          <motion.button
             id={`book-btn-${_id}`}
             onClick={handleBook}
-            className="px-4 py-1.5 text-sm font-semibold rounded-xl bg-primary text-on-primary hover:bg-primary/90 active:scale-95 transition-all duration-150 cursor-pointer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-4 py-1.5 text-sm font-semibold rounded-xl bg-primary text-on-primary hover:bg-primary/90 transition-colors cursor-pointer"
           >
             Book Now
-          </button>
+          </motion.button>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }

@@ -14,14 +14,19 @@ export default function Banner({ facilities: slides = [] }) {
   if (!slides || slides.length === 0) return null;
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#131b2e] dark:bg-black text-white">
-      <Swiper
-        modules={[Autoplay, EffectFade, Pagination]}
-        effect="fade"
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        pagination={{ clickable: true, dynamicBullets: true }}
-        className="w-full h-full min-h-[520px] sm:min-h-[580px] lg:min-h-[650px]"
-      >
+    <section className="pt-20 relative w-full overflow-hidden bg-[#131b2e] dark:bg-black text-white">
+<Swiper
+  modules={[Autoplay, EffectFade, Pagination]}
+  effect="fade"
+  autoplay={{ delay: 5000, disableOnInteraction: false }}
+  pagination={{
+    clickable: true,
+    dynamicBullets: true,
+  }}
+  style={{
+    "--swiper-pagination-bottom": "20px",
+  }}
+>
         {slides.map((slide) => {
           const title       = slide.title || slide.name || "SportNest Premium Facility";
           const description = slide.description || "High-performance sports venue matching professional standards.";
@@ -37,34 +42,35 @@ export default function Banner({ facilities: slides = [] }) {
           return (
             <SwiperSlide
               key={slide._id || slide.id}
-              className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[650px] flex items-center"
+               className="relative w-full min-h-[480px] sm:min-h-[550px] md:min-h-[600px] lg:min-h-[650px] flex items-center"
             >
               {/* Background image */}
               <div className="absolute inset-0 z-0">
-                <Image
-                  src={imageSrc}
-                  alt={title}
-                  fill
-                  className="object-cover opacity-35"
-                  priority
-                />
+<Image
+  src={imageSrc}
+  alt={title}
+  fill
+  priority
+  sizes="100vw"
+  className="object-cover opacity-35"
+/>
                 {/* gradient: full dark on mobile, fades right on desktop */}
                 <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/70 to-slate-950/90 lg:bg-gradient-to-r lg:from-slate-950 lg:via-slate-950/80 lg:to-transparent" />
               </div>
 
               {/* Content */}
-              <div className="relative z-10 w-full max-w-container-max mx-auto px-4 sm:px-8 lg:px-margin-desktop py-16 sm:py-20 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+              <div className="relative z-10 w-full max-w-container-max mx-auto px-4 sm:px-6 lg:px-margin-desktop py-12 sm:py-16 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-center">
 
                 {/* Text column */}
-                <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left">
+                <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left max-w-3xl mx-auto lg:mx-0">
                   {/* Badge */}
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 text-primary-fixed border border-primary/30 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 text-primary-fixed border border-primary/30 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mx-auto lg:mx-0">
                     <span className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse" />
                     {sportBadge}
                   </span>
 
                   {/* Heading */}
-                  <h1 className="font-extrabold text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight font-display">
+                  <h1 className="font-extrabold text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight font-display break-words">
                     {titleFirst}{" "}
                     {titleSecond && (
                       <span className="text-primary dark:text-primary-fixed-dim">
@@ -74,12 +80,12 @@ export default function Banner({ facilities: slides = [] }) {
                   </h1>
 
                   {/* Description */}
-                  <p className="text-slate-300 font-semibold leading-relaxed text-xs sm:text-sm md:text-base max-w-xl mx-auto lg:mx-0">
+                  <p className="text-slate-300 font-semibold leading-relaxed text-sm md:text-base max-w-xl mx-auto lg:mx-0">
                     {description}
                   </p>
 
                   {/* Buttons — stack on mobile, row on sm+ */}
-                  <div className="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start w-full sm:w-auto">
                     <Link
                       href="/facilities"
                       className="px-5 sm:px-6 py-3 sm:py-3.5 bg-primary text-on-primary dark:bg-primary-fixed-dim dark:text-slate-950 font-bold rounded-xl hover:brightness-110 hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base"
@@ -88,17 +94,17 @@ export default function Banner({ facilities: slides = [] }) {
                       <FiArrowRight />
                     </Link>
                     <Link
-                      href="/facilities"
-                      className="px-5 sm:px-6 py-3 sm:py-3.5 border border-white/20 hover:border-white/40 bg-white/5 backdrop-blur-md text-white font-bold rounded-xl hover:bg-white/10 transition-all cursor-pointer text-sm sm:text-base text-center"
-                    >
+  href="/facilities"
+  className="w-full sm:w-auto px-5 sm:px-6 py-3 sm:py-3.5 border border-white/20 hover:border-white/40 bg-white/5 backdrop-blur-md text-white font-bold rounded-xl hover:bg-white/10 transition-all cursor-pointer text-sm sm:text-base text-center"
+>
                       Book a Slot
                     </Link>
                   </div>
                 </div>
 
                 {/* Live status card — desktop only */}
-                <div className="lg:col-span-5 hidden lg:block">
-                  <div className="glass-panel border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                <div className="lg:col-span-5 hidden md:block">
+                  <div className="glass-panel border border-white/10 rounded-2xl p-4 lg:p-6 shadow-2xl relative overflow-hidden">
                     <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
 
                     <div className="flex justify-between items-center mb-6">
