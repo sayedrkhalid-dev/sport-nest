@@ -37,7 +37,7 @@ export default function Banner({ facilities: slides = [] }) {
           const sportBadge = slide.sportBadge || slide.facility_type || "Sports";
           const spaceName = slide.spaceName || slide.location || "Vetted Sports Arena";
           const spaceStatus = slide.spaceStatus || (slide.available_slots?.length > 0 ? "Available now" : "Fully booked");
-          const imageSrc = slide.image || "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80";
+          const imageSrc = slide.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png";
 
           const titleWords = title.split(" ");
           const titleFirst = titleWords.length > 2 ? titleWords.slice(0, -2).join(" ") : title;

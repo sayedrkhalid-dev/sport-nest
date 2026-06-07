@@ -16,23 +16,11 @@ export default function BookingCard({ facility }) {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  const slots = [
-    {
-      name: "Morning",
-      start_time: "08:00",
-      end_time: "10:00",
-    },
-    {
-      name: "Afternoon",
-      start_time: "13:00",
-      end_time: "15:00",
-    },
-    {
-      name: "Evening",
-      start_time: "18:00",
-      end_time: "20:00",
-    },
-  ];
+const slots = (facility?.available_slots || []).map((s) => ({
+  name: `${s.start_time}–${s.end_time}`,
+  start_time: s.start_time,
+  end_time: s.end_time,
+}));
 
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedSlot, setSelectedSlot] = useState(slots[0]);

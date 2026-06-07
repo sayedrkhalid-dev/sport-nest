@@ -20,7 +20,18 @@ export default function RegisterForm() {
 const onSubmit = async ({ name, email, password, image }) => {
   setLoading(true);
   try {
-    await authClient.signUp.email({ name, email, password, image });
+    const result = await authClient.signUp.email({
+      name,
+      email,
+      password,
+      image,
+      callbackURL: "/login",
+    });
+
+    if (result?.error) {
+      throw new Error(result.error.message || "Registration failed.");
+    }
+
     toast.success("Account created! Please sign in.");
     router.push("/login");
   } catch (err) {

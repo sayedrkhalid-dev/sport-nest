@@ -10,7 +10,6 @@ import toast from "react-hot-toast";
 import { authClient } from "@/lib/authClient";
 
 export default function LoginForm() {
-  console.log(authClient);
   const [showPass, setShowPass] = useState(false);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -27,15 +26,21 @@ export default function LoginForm() {
 const onSubmit = async ({ email, password }) => {
   setLoading(true);
   try {
-    const { error } = await authClient.signIn.email(
-      { email, password, callbackURL: redirect },
-      { throw: false }
-    );
-    if (error) throw new Error(error.message || "Invalid credentials.");
+    const result = await authClient.signIn.email({
+      email,
+      password,
+      callbackURL: redirect,
+    });
+
+    // better-auth returns an error object instead of throwing in some versions
+    if (result?.error) {
+      throw new Error(result.error.message || "Invalid email or password.");
+    }
+
     toast.success("Welcome back!");
     router.push(redirect);
   } catch (err) {
-    toast.error(err.message || "Login failed. Please try again.");
+    toast.error(err.message || "Invalid email or password.");
   } finally {
     setLoading(false);
   }
@@ -44,7 +49,7 @@ const onSubmit = async ({ email, password }) => {
   const handleGoogle = async () => {
     setGoogleLoading(true);
     try {
-      await authClient.signIn.social({ provider: "google", callbackURL: redirect });
+      await authClient.signIn.social({ provider: "google", callbackURL: "/" });
     } catch {
       toast.error("Google sign-in failed. Please try again.");
       setGoogleLoading(false);

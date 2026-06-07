@@ -75,4 +75,4 @@ export const createBooking = (data) =>
 
 /** Cancel a booking by ID */
 export const cancelBooking = (id) =>
-  fetcher(`/bookings/my/${id}/cancel`, { method: "PATCH" });
+  fetcher(`/bookings/${id}/cancel`, { method: "PATCH" });

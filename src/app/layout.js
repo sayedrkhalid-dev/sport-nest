@@ -28,7 +28,6 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${montserrat.variable} light`}
     >
       <body
-        suppressHydrationWarning
         className="bg-surface font-sans text-on-surface antialiased overflow-x-hidden min-h-screen flex flex-col"
       >
         <ThemeProvider>{children}</ThemeProvider>

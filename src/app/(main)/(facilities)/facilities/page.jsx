@@ -10,7 +10,7 @@ export default async function FacilitiesPage({ searchParams }) {
   // Build query params for the API request
 const query = {
   search: params.search || "",
-  facility_type: params.type || "",  // ✅ correct key
+  facility_type: params.type || "",
   location: params.location || "",
 };
 

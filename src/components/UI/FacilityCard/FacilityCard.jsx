@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { HiMapPin, HiStar, HiClock, HiCurrencyDollar } from "react-icons/hi2";
 import { useAuth } from "@/hooks/useAuth";
@@ -20,19 +19,22 @@ const SPORT_COLORS = {
 export default function FacilityCard({ facility }) {
   const { isAuthenticated } = useAuth();
   const router = useRouter();
+  console.log(facility)
 
   const {
     _id,
-    name,
     title,
+    about,
     facility_type,
     image,
     location,
-    price_per_hour,
+    price,
     rating,
     badge,
     capacity,
     available_slots,
+    owner_email,
+    amenities
   } = facility;
 
   const sportColor = SPORT_COLORS[facility_type] || "bg-surface-container text-on-surface-variant";
@@ -51,7 +53,7 @@ export default function FacilityCard({ facility }) {
       <div className="relative h-48 w-full overflow-hidden">
         <Image
           src={image || "/placeholder-sport.jpg"}
-          alt={title}
+          alt={title || "facility image"}
           fill
           className="object-cover transition-transform duration-500 hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -79,7 +81,7 @@ export default function FacilityCard({ facility }) {
         </span>
 
         <h3 className="font-display font-bold text-base leading-tight text-on-surface dark:text-slate-100 line-clamp-2">
-          {name}
+          {title}
         </h3>
 
         <div className="flex flex-col gap-1.5 text-sm text-on-surface-variant dark:text-slate-400">
@@ -99,7 +101,7 @@ export default function FacilityCard({ facility }) {
         <div className="flex items-center justify-between mt-auto pt-3 border-t border-outline-variant/30 dark:border-slate-700/50">
           <div className="flex items-center gap-1 text-primary dark:text-blue-400">
             <HiCurrencyDollar className="w-5 h-5" />
-            <span className="font-bold text-lg">{price_per_hour}</span>
+            <span className="font-bold text-lg">{price}</span>
             <span className="text-xs text-on-surface-variant dark:text-slate-400">/hr</span>
           </div>
           <button
