@@ -6,7 +6,7 @@ import { FaStar } from "react-icons/fa";
 
 const surfaces = ["All", "Vinyl", "Grass", "Concrete", "Rubber"];
 
-export default function FacilitiesSidebar({ averagePriceFormatted = "$50" }) {
+export default function FacilitiesSidebar({ averagePriceFormatted = "$50", onApply }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -252,15 +252,24 @@ export default function FacilitiesSidebar({ averagePriceFormatted = "$50" }) {
         </div>
 
         {/* Footer */}
-        <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
-          <button
-            type="button"
-            onClick={onResetFilters}
-            className="w-full h-11 rounded-xl border border-slate-200 dark:border-slate-700 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer text-slate-700 dark:text-slate-300"
-          >
-            Reset All Filters
-          </button>
-        </div>
+<div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-2">
+  <button
+    type="button"
+    onClick={onResetFilters}
+    className="w-full h-11 rounded-xl border border-slate-200 dark:border-slate-700 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition cursor-pointer text-slate-700 dark:text-slate-300"
+  >
+    Reset All Filters
+  </button>
+  {onApply && (
+    <button
+      type="button"
+      onClick={onApply}
+      className="w-full h-11 rounded-xl bg-primary text-white font-bold text-sm cursor-pointer hover:brightness-110 transition"
+    >
+      Apply Filters
+    </button>
+  )}
+</div>
       </form>
     </aside>
   );

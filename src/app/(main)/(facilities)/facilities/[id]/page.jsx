@@ -17,6 +17,7 @@ export default async function FacilityDetails({ params }) {
   } catch (err) {
     console.error("Failed to fetch facility details:", err);
   }
+  console.log(facility)
 
   if (!facility) {
     return (
@@ -50,7 +51,7 @@ export default async function FacilityDetails({ params }) {
               </span>
               {facility.court_type && (
                 <span className="px-3 py-1 bg-white/20 backdrop-blur-md text-white rounded-full text-label-sm font-label-sm uppercase tracking-wider font-bold">
-                  {facility.court_type}
+                  {facility.court_type || facility.type}
                 </span>
               )}
             </div>
@@ -82,8 +83,7 @@ export default async function FacilityDetails({ params }) {
                 Overview &amp; Details
               </h3>
               <p className="text-body-md text-on-surface-variant dark:text-outline-variant leading-relaxed text-sm">
-                {facility.description ||
-                  `This elite ${facility.sport || facility.facility_type || "sports"} facility is engineered for high-performance training, league tournaments, and casual club play. Featuring professional-grade surface finishing, state-of-the-art illumination, and optimized capacity parameters, it provides an outstanding experience for athletes of all levels.`}
+                {facility.description || facility.about}
               </p>
             </div>
 

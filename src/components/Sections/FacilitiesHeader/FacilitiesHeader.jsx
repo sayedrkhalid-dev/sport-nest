@@ -32,9 +32,9 @@ export default function FacilitiesHeader({ totalResults = 0 }) {
 
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 shadow-sm">
-      <div className="flex flex-col lg:flex-row gap-4 lg:items-center lg:justify-between">
+      <div className="flex gap-4 items-center justify-between">
         {/* Search */}
-        <div className="relative flex-1">
+        <div className="relative flex-4">
           <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg" />
 
           <input
@@ -57,7 +57,7 @@ export default function FacilitiesHeader({ totalResults = 0 }) {
         </div>
 
         {/* Sort */}
-        <div className="relative min-w-[220px]">
+        <div className="relative flex-2">
           <select
             value={sortBy}
             onChange={(e) => updateQuery("sortBy", e.target.value)}

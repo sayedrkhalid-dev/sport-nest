@@ -17,9 +17,9 @@ export default function BookingCard({ facility }) {
   const [errorMsg, setErrorMsg] = useState("");
 
 const slots = (facility?.available_slots || []).map((s) => ({
-  name: `${s.start_time}–${s.end_time}`,
-  start_time: s.start_time,
-  end_time: s.end_time,
+  name: `${s?.start_time}–${s?.end_time}`,
+  start_time: s?.start_time,
+  end_time: s?.end_time,
 }));
 
   const [selectedDate, setSelectedDate] = useState("");
@@ -58,8 +58,8 @@ await createBooking({
   facility_id: facility._id || facility.id,
   booking_date: selectedDate,
   time_slot: {
-    start_time: selectedSlot.start_time,
-    end_time: selectedSlot.end_time,
+    start_time: selectedSlot?.start_time,
+    end_time: selectedSlot?.end_time,
   },
 });
 
@@ -178,15 +178,15 @@ await createBooking({
                           : "bg-surface-alt border-stroke-soft dark:border-slate-800 dark:bg-slate-950 text-on-surface-variant dark:text-slate-400 hover:border-primary"
                       }`}
                     >
-                      <div className="font-extrabold">{slot.name}</div>
-                      <div className="opacity-80 scale-90 mt-0.5">{slot.start_time}</div>
+                      <div className="font-extrabold">{slot?.name}</div>
+                      <div className="opacity-80 scale-90 mt-0.5">{slot?.start_time}</div>
                     </button>
                   );
                 })}
               </div>
 
               <p className="text-[10px] text-outline dark:text-slate-500 mt-1.5 font-semibold">
-                {selectedSlot.start_time} – {selectedSlot.end_time}
+                {selectedSlot?.start_time} – {selectedSlot?.end_time}
               </p>
             </div>
 

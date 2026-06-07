@@ -6,49 +6,40 @@ import { FiArrowRight, FiCheck, FiMapPin, FiCalendar } from "react-icons/fi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/effect-fade";
 import "swiper/css/pagination";
 
 export default function Banner({ facilities: slides = [] }) {
-  if (!slides || slides.length === 0) {
-    return null;
-  }
+  if (!slides || slides.length === 0) return null;
 
   return (
     <section className="relative w-full overflow-hidden bg-[#131b2e] dark:bg-black text-white">
       <Swiper
         modules={[Autoplay, EffectFade, Pagination]}
-        effect={"fade"}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-          dynamicBullets: true,
-        }}
-        className="w-full h-full min-h-[550px] lg:min-h-[650px]"
+        effect="fade"
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        pagination={{ clickable: true, dynamicBullets: true }}
+        className="w-full h-full min-h-[520px] sm:min-h-[580px] lg:min-h-[650px]"
       >
         {slides.map((slide) => {
-          const title = slide.title || slide.name || "SportNest Premium Facility";
+          const title       = slide.title || slide.name || "SportNest Premium Facility";
           const description = slide.description || "High-performance sports venue matching professional standards.";
-          const sportBadge = slide.sportBadge || slide.facility_type || "Sports";
-          const spaceName = slide.spaceName || slide.location || "Vetted Sports Arena";
+          const sportBadge  = slide.sportBadge || slide.facility_type || "Sports";
+          const spaceName   = slide.spaceName || slide.location || "Vetted Sports Arena";
           const spaceStatus = slide.spaceStatus || (slide.available_slots?.length > 0 ? "Available now" : "Fully booked");
-          const imageSrc = slide.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png";
+          const imageSrc    = slide.image || "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/3840px-User-avatar.svg.png";
 
-          const titleWords = title.split(" ");
-          const titleFirst = titleWords.length > 2 ? titleWords.slice(0, -2).join(" ") : title;
+          const titleWords  = title.split(" ");
+          const titleFirst  = titleWords.length > 2 ? titleWords.slice(0, -2).join(" ") : title;
           const titleSecond = titleWords.length > 2 ? titleWords.slice(-2).join(" ") : "";
 
           return (
             <SwiperSlide
               key={slide._id || slide.id}
-              className="relative w-full h-full min-h-[550px] lg:min-h-[650px] flex items-center"
+              className="relative w-full min-h-[520px] sm:min-h-[580px] lg:min-h-[650px] flex items-center"
             >
-              {/* Slide Background */}
+              {/* Background image */}
               <div className="absolute inset-0 z-0">
                 <Image
                   src={imageSrc}
@@ -57,52 +48,61 @@ export default function Banner({ facilities: slides = [] }) {
                   className="object-cover opacity-35"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-transparent" />
+                {/* gradient: full dark on mobile, fades right on desktop */}
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/70 to-slate-950/90 lg:bg-gradient-to-r lg:from-slate-950 lg:via-slate-950/80 lg:to-transparent" />
               </div>
 
-              {/* Slide Content */}
-              <div className="max-w-container-max mx-auto px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 py-16 w-full">
-                {/* Banner Text Columns */}
-                <div className="lg:col-span-7 space-y-6">
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary/20 text-primary-fixed border border-primary/30 text-[11px] font-bold uppercase tracking-wider">
-                    <span className="w-2.5 h-2.5 rounded-full bg-primary-fixed animate-pulse" />
+              {/* Content */}
+              <div className="relative z-10 w-full max-w-container-max mx-auto px-4 sm:px-8 lg:px-margin-desktop py-16 sm:py-20 lg:py-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+                {/* Text column */}
+                <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left">
+                  {/* Badge */}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/20 text-primary-fixed border border-primary/30 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-primary-fixed animate-pulse" />
                     {sportBadge}
                   </span>
-                  <h1 className="text-headline-lg font-extrabold text-white text-3xl md:text-5xl lg:text-6xl leading-tight tracking-tight font-display">
+
+                  {/* Heading */}
+                  <h1 className="font-extrabold text-white text-2xl sm:text-4xl md:text-5xl lg:text-6xl leading-tight tracking-tight font-display">
                     {titleFirst}{" "}
                     {titleSecond && (
-                      <span className="text-primary dark:text-primary-fixed-dim block sm:inline">
+                      <span className="text-primary dark:text-primary-fixed-dim">
                         {titleSecond}
                       </span>
                     )}
                   </h1>
-                  <p className="text-body-lg text-slate-300 max-w-xl font-semibold leading-relaxed text-sm md:text-base">
+
+                  {/* Description */}
+                  <p className="text-slate-300 font-semibold leading-relaxed text-xs sm:text-sm md:text-base max-w-xl mx-auto lg:mx-0">
                     {description}
                   </p>
-                  <div className="flex flex-wrap gap-4 pt-4">
+
+                  {/* Buttons — stack on mobile, row on sm+ */}
+                  <div className="flex flex-col sm:flex-row gap-3 pt-2 justify-center lg:justify-start">
                     <Link
                       href="/facilities"
-                      className="px-6 py-3.5 bg-primary text-on-primary dark:bg-primary-fixed-dim dark:text-slate-950 font-bold rounded-xl hover:brightness-110 hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center gap-2 cursor-pointer"
+                      className="px-5 sm:px-6 py-3 sm:py-3.5 bg-primary text-on-primary dark:bg-primary-fixed-dim dark:text-slate-950 font-bold rounded-xl hover:brightness-110 hover:scale-[1.02] active:scale-95 transition-all shadow-lg flex items-center justify-center gap-2 cursor-pointer text-sm sm:text-base"
                     >
                       Explore Facilities
                       <FiArrowRight />
                     </Link>
                     <Link
                       href="/facilities"
-                      className="px-6 py-3.5 border border-white/20 hover:border-white/40 bg-white/5 backdrop-blur-md text-white font-bold rounded-xl hover:bg-white/10 transition-all cursor-pointer"
+                      className="px-5 sm:px-6 py-3 sm:py-3.5 border border-white/20 hover:border-white/40 bg-white/5 backdrop-blur-md text-white font-bold rounded-xl hover:bg-white/10 transition-all cursor-pointer text-sm sm:text-base text-center"
                     >
                       Book a Slot
                     </Link>
                   </div>
                 </div>
 
-                {/* Slide Side Card (Live Highlight) */}
+                {/* Live status card — desktop only */}
                 <div className="lg:col-span-5 hidden lg:block">
                   <div className="glass-panel border border-white/10 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
                     <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/20 rounded-full blur-3xl" />
 
                     <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-headline-md font-bold text-white flex items-center gap-2 text-base">
+                      <h3 className="font-bold text-white flex items-center gap-2 text-base">
                         <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
                         Live Arena Status
                       </h3>
