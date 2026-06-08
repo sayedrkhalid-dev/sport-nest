@@ -9,7 +9,7 @@ import { getFacilityById } from "@/lib/api";
 export const revalidate = 0;
 
 export default async function FacilityDetails({ params }) {
-  const { _id: id } = await params;
+  const { id } = await params;
   let facility = null;
 
   try {
