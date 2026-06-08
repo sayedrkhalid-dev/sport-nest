@@ -1,12 +1,12 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { db } from "@/db";
+import clientPromise from "@/db";
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
   secret: process.env.BETTER_AUTH_SECRET,
 
-  database: mongodbAdapter(db),
+  database: mongodbAdapter(clientPromise),
 
   trustedOrigins: [
     "http://localhost:3000",
