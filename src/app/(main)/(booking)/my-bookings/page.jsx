@@ -87,11 +87,12 @@ export default function MyBookingsPage() {
             </h3>
             <div className="space-y-4">
               {bookings.map((booking) => (
-                <MyBookingCard
-                  key={booking._id || booking.id}
-                  booking={booking}
-                  onCancelled={handleCancelled}
-                />
+<MyBookingCard
+  key={booking._id || booking.id}
+  booking={booking}
+  onCancelled={handleCancelled}
+  userEmail={user?.email}
+/>
               ))}
             </div>
           </div>
