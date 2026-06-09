@@ -61,7 +61,10 @@ export const deleteFacility = (id) =>
 
 // ─── Bookings ─────────────────────────────────────────────────────────────────
 
-export const getMyBookings = (email) => fetcher(`/bookings/my?email=${email}`);
+// ─── Bookings ─────────────────────────────────────────────────────────────────
+
+export const getMyBookings = (email) =>
+  fetcher(`/bookings/my?owner_email=${email}`);
 
 export const createBooking = (data) =>
   fetcher("/bookings", {
@@ -69,8 +72,8 @@ export const createBooking = (data) =>
     body: JSON.stringify(data),
   });
 
-export const cancelBooking = (id, user_email) =>
+export const cancelBooking = (id, owner_email) =>
   fetcher(`/bookings/${id}/cancel`, {
     method: "PATCH",
-    body: JSON.stringify({ user_email }),
+    body: JSON.stringify({ owner_email }),
   });
