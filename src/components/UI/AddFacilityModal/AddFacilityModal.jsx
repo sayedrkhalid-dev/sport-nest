@@ -13,7 +13,7 @@ const FACILITY_TYPES = ["Football", "Basketball", "Tennis", "Swimming", "Badmint
 const EMPTY_SLOT = { start_time: "", end_time: "" };
 
 export default function AddFacilityModal({ isOpen, onClose, onSuccess, editData = null }) {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [slots, setSlots] = useState(
@@ -38,7 +38,7 @@ export default function AddFacilityModal({ isOpen, onClose, onSuccess, editData 
       setImagePreview(editData.image || "");
     } else {
       reset();
-      setSlots([{ ...EMPTY_SLOT }]); // Fix: was [""], must be array of slot objects
+      setSlots([{ ...EMPTY_SLOT }]);
       setImagePreview("");
     }
   }, [editData, setValue, reset]);
@@ -77,16 +77,19 @@ export default function AddFacilityModal({ isOpen, onClose, onSuccess, editData 
     setSlots((prev) => prev.filter((_, j) => j !== index));
 
   const onSubmit = async (data) => {
+    if (!user?.email) return toast.error("Please sign in first.");
     if (!imagePreview) return toast.error("Please upload a facility image.");
     const cleanSlots = slots.filter((s) => s.start_time && s.end_time);
     if (!cleanSlots.length) return toast.error("Add at least one complete time slot.");
+
     setSubmitting(true);
     try {
       const payload = {
         ...data,
         image: imagePreview,
         available_slots: cleanSlots,
-        owner_email: user?.email,
+        owner_email: user.email,
+        facility_type: data.facility_type?.toLowerCase(),
       };
       if (editData?._id) {
         await updateFacility(editData._id, payload);
@@ -290,7 +293,7 @@ export default function AddFacilityModal({ isOpen, onClose, onSuccess, editData 
             </button>
             <button
               type="submit"
-              disabled={submitting || uploading}
+              disabled={submitting || uploading || isLoading || !user}
               className="flex-1 py-2.5 rounded-xl bg-primary text-on-primary text-sm font-semibold hover:bg-primary/90 transition-colors cursor-pointer disabled:opacity-60"
             >
               {submitting
