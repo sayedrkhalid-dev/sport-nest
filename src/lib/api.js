@@ -56,8 +56,11 @@ export const updateFacility = (id, data) =>
     body: JSON.stringify(data),
   });
 
-export const deleteFacility = (id) =>
-  fetcher(`/facilities/${id}`, { method: "DELETE" });
+export const deleteFacility = (id, owner_email) =>
+  fetcher(`/facilities/${id}`, {
+    method: "DELETE",
+    body: JSON.stringify({ owner_email }),
+  });
 
 // ─── Bookings ─────────────────────────────────────────────────────────────────
 
