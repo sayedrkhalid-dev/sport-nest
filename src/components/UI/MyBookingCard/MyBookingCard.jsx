@@ -35,7 +35,7 @@ export default function MyBookingCard({ booking, onCancelled, userEmail }) {
     if (!window.confirm("Are you sure you want to cancel this booking?")) return;
     setCancelling(true);
     try {
-      await cancelBooking(_id);
+      await cancelBooking(_id, userEmail);
       toast.success("Booking cancelled successfully.");
       // Animate out then notify parent
       setVisible(false);
