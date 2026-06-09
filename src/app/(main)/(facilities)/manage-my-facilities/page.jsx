@@ -37,18 +37,17 @@ export default function ManageMyFacilitiesPage() {
     fetchFacilities();
   }, [user?.email]);
 
-  const handleDeleteConfirm = async () => {
-    if (!deletingFacilityId) return;
-    try {
-      await deleteFacility(deletingFacilityId);
-      toast.success("Facility deleted successfully!");
-      // Optimistic UI update
-      setFacilities((prev) => prev.filter((f) => (f._id || f.id) !== deletingFacilityId));
-      setDeletingFacilityId(null);
-    } catch (err) {
-      toast.error(err.message || "Failed to delete facility.");
-    }
-  };
+const handleDeleteConfirm = async () => {
+  if (!deletingFacilityId) return;
+  try {
+    await deleteFacility(deletingFacilityId, user.email);
+    toast.success("Facility deleted successfully!");
+    setFacilities((prev) => prev.filter((f) => (f._id || f.id) !== deletingFacilityId));
+    setDeletingFacilityId(null);
+  } catch (err) {
+    toast.error(err.message || "Failed to delete facility.");
+  }
+};
 
   // Stats calculation
   const totalBookingsCount = facilities.reduce((sum, f) => sum + (f.booking_count || 0), 0);
