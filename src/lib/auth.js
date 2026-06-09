@@ -1,21 +1,21 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import clientPromise from "@/db";
+import { MongoClient } from "mongodb";
+
+const client = new MongoClient(process.env.MONGODB_URI);
 
 export const auth = betterAuth({
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  baseURL: process.env.BETTER_AUTH_URL,
   secret: process.env.BETTER_AUTH_SECRET,
 
-  database: mongodbAdapter(clientPromise),
+  database: mongodbAdapter(client),
 
   trustedOrigins: [
     "http://localhost:3000",
     "https://sport-nest-chi.vercel.app",
   ],
 
-  emailAndPassword: {
-    enabled: true,
-  },
+  emailAndPassword: { enabled: true },
 
   socialProviders: {
     google: {
