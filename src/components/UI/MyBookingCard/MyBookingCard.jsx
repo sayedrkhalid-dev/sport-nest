@@ -12,7 +12,7 @@ const STATUS_STYLES = {
   cancelled: "bg-red-100    text-red-800    dark:bg-red-900/40    dark:text-red-300",
 };
 
-export default function MyBookingCard({ booking, onCancelled }) {
+export default function MyBookingCard({ booking, onCancelled, userEmail }) {
   const [cancelling, setCancelling] = useState(false);
   const [visible, setVisible] = useState(true);
 
