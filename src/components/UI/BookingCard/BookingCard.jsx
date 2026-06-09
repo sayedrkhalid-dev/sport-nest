@@ -61,6 +61,7 @@ await createBooking({
     start_time: selectedSlot?.start_time,
     end_time: selectedSlot?.end_time,
   },
+  user_email: user?.email,   // ← এটা add করো
 });
 
       toast.success("Booking confirmed!");
